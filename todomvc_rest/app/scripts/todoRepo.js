@@ -92,16 +92,13 @@ var TodoRepo = (function() {
         }
 
         setCompleted(completed, callback) {
-            this.getList('all', function(allTodos) {
-                var ids = _.pluck(allTodos, 'id');
-                $.ajax({
-                    url: "http://localhost:4000/api/todos/" + ids + "/completed/" + completed,
-                    type: 'PATCH',
-                    success: function(updatedTodos) {
-                        callback(todos);
-                    }
-                });
-            }.bind(this));
+            $.ajax({
+                url: "http://localhost:4000/api/todos/toggleAll",
+                type: 'PUT',
+                success: function(todos) {
+                    callback(todos);
+                }
+            });
         }
 
         removeCompleted(){

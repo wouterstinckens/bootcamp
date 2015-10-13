@@ -31,6 +31,15 @@ router.post('/', function(req, res, next) {
     return res.send(body);
 });
 
+// PUT: selectAll
+router.put('/toggleAll?', function(req, res, next) {
+	var completed = req.query.completed || true; 
+	_.each(todos, function(todo) {
+		todo.completed = completed;
+	});	
+	return res.send(todos);
+});
+
 // PUT
 router.put('/:id', function(req, res, next) {
 	var id = req.params.id; 
@@ -42,21 +51,6 @@ router.put('/:id', function(req, res, next) {
 	todo.title = body.title;
 	todo.completed = body.completed;	
 	return res.send(todo);
-});
-
-// PATCH
-router.patch('/:ids/completed/:completed', function(req, res, next) {
-	var ids = req.params.ids; 
-	var completed = req.params.completed;
-	var updatedTodos = [];
-	for (var id in ids) {
-console.log('ID: ' + id);
-		var todo = 	_find(id);
-console.log('todo: ' + todo);
-		todo.completed = completed;
-		updatedTodos.push(todo);
-	}
-	return res.send(todos);
 });
 
 // DELETE

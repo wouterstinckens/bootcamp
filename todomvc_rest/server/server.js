@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var _ = require('underscore');
 var apiTodo = require('./todo');
 var cors = require('cors');
+var cfg = require('./config');
 
 var app = express();
 
@@ -20,8 +21,7 @@ app.use(bodyParser.json());
 app.use('/api/todos', apiTodo);
 
 // setup server
-var port = process.env.PORT || 4000;
-var server  = app.listen(port, function() {
+var server  = app.listen(cfg.port, function() {
 	console.log('Express server listening on port: ' + server.address().port);
 });
 
