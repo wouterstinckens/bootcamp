@@ -1,0 +1,25 @@
+{
+  "name": "todomvc_part1",
+  "version": "0.0.0",
+  "authors": [
+    "Gaetan Vanderhaegen <gaetan.vanderhaegen@euri.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "handlebars": "~4.0.3",
+    "director": "~1.2.8",
+    "underscore": "~1.8.3"
+  }
+}
