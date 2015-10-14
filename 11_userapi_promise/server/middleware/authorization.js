@@ -3,13 +3,11 @@ var base64 = require('base-64');
 module.exports = function (username, password) {
 	return function authorize(req, res, next) {
 		var authorization = req.headers.authorization;
-		console.log(authorization);
 		if (!authorization) return res.status(401).send();
 		
 		var base64Str = authorization.split(' ')[1];
 	 	var decoded = base64.decode(base64Str);
 		var arr = decoded.split(':');
-		console.log(arr);
 		if (arr[0] == username && arr[1] == password) {
 			req.username = arr[0];
 			return next();

@@ -24,8 +24,10 @@ function validate(req, res, next) {
 		}
 	};
 	var result = inspector.validate(schema, resource);
-	console.log(result);
-	if (!result.valid) return next(error(400));
+	if (!result.valid) {
+		console.log(result);
+		return next(error(400));
+	}
 	return next();
 };
 
