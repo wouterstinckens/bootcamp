@@ -2,7 +2,9 @@ var _ = require('underscore');
 var express = require('express');
 var mongoose = require('mongoose');
 var faker = require('faker');
-var userMapper = require('./userMapper');
+var inspector = require('schema-inspector');
+var userMapper = require('../userMapper');
+var logging = require('../middleware/logging')
 
 var router = express.Router();
 
@@ -49,7 +51,6 @@ User.collection.insert(userCollection, function(err, docs) {
 
 // setup services
 router.get('/', function(req, res, next) {
-	console.log(next);
     var pageSize = 0;
     if (req.query.pageSize) {
     	pageSize = parseInt(req.query.pageSize);
@@ -68,6 +69,8 @@ router.get('/', function(req, res, next) {
 		.skip(page * pageSize)
 		.sort(sort)
 		.exec(function(err, users) {
+			if (err) return next(err);
+
 			var formattedUsers = _.map(users, function(user) {
 				return userMapper.map(user);
 			});
@@ -78,21 +81,29 @@ router.get('/', function(req, res, next) {
 
 router.get('/:id', function(req, res, next) {
 	User.findOne({_id: req.params.id}, function(err, user) {
-		if (err) {
-			return res.status(500).send('There is a problem: ' + err);
-		}
+		if (err) return next(err);
+		if (err || !user) return next(error('404'));
 
-		if (user) {
-			return res.status(200).send(userMapper.map(user));
-		}
-		return res.status(404).send('user not found');
+		return res.status(200).send(userMapper.map(user));
 	});
 });
 
-router.post('/', function(req, res, next) {
-	if (!(req.body.name && req.body.email)) {
-		return res.status(400).send("bad request");
-	}
+function validate(req, res, next) {
+	var resource = req.body;
+	var schema = {
+		properties: {
+			name: { type: 'string' },
+			email: { type: 'string', pattern: 'email' }
+		}
+	};
+	var result = inspector.validate(schema, resource);
+	console.log(result);
+	if (!result.valid) return next(error(400));
+	return next();
+};
+
+router.post('/', validate, function(req, res, next) {
+	console.log('test');
 	var nameObj = _splitNames(req.body.name);
 	var user = new User({
 		firstName: nameObj.firstName,
@@ -106,23 +117,17 @@ router.post('/', function(req, res, next) {
 		}
     });
     user.save(function(err) {
-    	if (err) {
-    		return res.status(500).send('We have a problem: ' + err);
-    	}
+		if (err) return next(err);
+
     	var formattedUser = userMapper.map(user);
     	return res.set('location', 'http://localhost:3000/api/users/' + formattedUser.id).status(201).send(formattedUser); 
     });
 });
 
-router.put('/:id', function(req, res, next) {
-	if (!(req.body.name && req.body.email)) {
-		return res.status(400).send('bad request');
-	}
 
+router.put('/:id', validate, function(req, res, next) {
 	User.findOne({_id: req.params.id}, function(err, user) {
-		if (!user) {
-			return res.status(404).send('User not found');
-		}
+		if (!user) return next(error(404));
 		
 		var nameObj = _splitNames(req.body.name);
 		user.firstName = nameObj.firstName;
@@ -133,7 +138,9 @@ router.put('/:id', function(req, res, next) {
 		user.homeAddress.city = req.body.city;
 		user.homeAddress.zip = req.body.zip;
 		
-		user.save(function() {
+		user.save(function(err) {
+			if (err) return next(err);
+
 			return res.status(200).send(userMapper.map(user));
 		});
 	});
@@ -141,11 +148,11 @@ router.put('/:id', function(req, res, next) {
 
 router.delete('/:id', function(req, res, next) {
 	User.findOne({_id: req.params.id}, function(err, user) {
-		if (!user) {
-			return res.status(404).send('User not found');
-		}
+		if (!user) return next(error(404));
 		
 		user.remove(function(err) {
+			if (err) return next(err);
+
 			return res.status(200).send(userMapper.map(user));
 		});
 	});
@@ -175,5 +182,10 @@ function _splitNames(name) {
 	return result;
 }
 
+function error(status) {
+	var error = new Error('An unknown error occurred');
+	error.status = status;
+	return error;
+}
 
 module.exports = router;
