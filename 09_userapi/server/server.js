@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var cors = require('cors');
 var apiUser = require('./user');
+var authorization = require('./authorization')
 
 // setup app
 var app = express();
@@ -13,6 +14,9 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }));
 app.use(bodyParser.json());
+
+// console.log(authorization);
+app.use(authorization("12345"));
 
 // route configuraition
 app.use('/api/users', apiUser);

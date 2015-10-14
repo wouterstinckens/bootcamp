@@ -35,6 +35,7 @@ _(1000).times(function() {
 		}
     });
 });
+User.find().remove().exec();
 User.collection.insert(userCollection, function(err, docs) {
 	if (err) {
 		console.log("Error while inserting records: " + err);
@@ -48,6 +49,7 @@ User.collection.insert(userCollection, function(err, docs) {
 
 // setup services
 router.get('/', function(req, res, next) {
+	console.log(next);
     var pageSize = 0;
     if (req.query.pageSize) {
     	pageSize = parseInt(req.query.pageSize);
@@ -69,6 +71,7 @@ router.get('/', function(req, res, next) {
 			var formattedUsers = _.map(users, function(user) {
 				return userMapper.map(user);
 			});
+			console.log("number of returned records: " + formattedUsers.length);
 			return res.status(200).send(formattedUsers);
 		});
 });
@@ -142,7 +145,7 @@ router.delete('/:id', function(req, res, next) {
 			return res.status(404).send('User not found');
 		}
 		
-		user.remove(function() {
+		user.remove(function(err) {
 			return res.status(200).send(userMapper.map(user));
 		});
 	});
