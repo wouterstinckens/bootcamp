@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "base-64": "^0.1.0",
     "body-parser": "^1.14.1",
     "cors": "^2.7.1",
     "express": "^4.13.3",
@@ -16,7 +17,6 @@
     "http-status": "^0.2.0",
     "mongoose": "^4.1.10",
     "morgan": "^1.6.1",
-    "node-base64-image": "^0.1.0",
     "q": "^1.4.1",
     "schema-inspector": "^1.5.5",
     "underscore": "^1.8.3"

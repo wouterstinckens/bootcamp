@@ -1,14 +1,14 @@
-var base64 = require('node-base64-image');
+var base64 = require('base-64');
 
-module.exports = authorize;
-
-function authorize(username, password) {
+module.exports = function (username, password) {
 	return function authorize(req, res, next) {
-		console.log(req.headers.authorization);
-		if (!req.headers.authorization) return res.status(401).send();
-
-		var buff = new Buffer(req.headers.authorization, 'base64');
-		var arr = buff.toString('utf8').split();
+		var authorization = req.headers.authorization;
+		console.log(authorization);
+		if (!authorization) return res.status(401).send();
+		
+		var base64Str = authorization.split(' ')[1];
+	 	var decoded = base64.decode(base64Str);
+		var arr = decoded.split(':');
 		console.log(arr);
 		if (arr[0] == username && arr[1] == password) {
 			req.username = arr[0];
@@ -16,7 +16,6 @@ function authorize(username, password) {
 		}
 		return next(error(401));
 	};
-	
 };
 
 function error(status) {

@@ -16,9 +16,10 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-// app.use(authorizatioxn("wouter", "12345"));
+// setup authorization
+app.use(authorization("wouter", "12345"));
 
-// route configuraition
+// setup route configuraition
 app.use('/api/users', apiUser);
 
 app.use(errorhandler());

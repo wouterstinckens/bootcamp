@@ -37,8 +37,15 @@ _(1000).times(function() {
 		}
     });
 });
-// User.find().remove().exec();
-// User.collection.insert(userCollection);
+
+
+User.find().exec(function(err, users) {
+	if (users.length > 0) {
+		return console.log("Records found, not inserting bulk data...");
+	}
+	console.log("No records found, inserting bulk data...");
+	User.collection.insert(userCollection);
+});
 
 
 var repository = {
