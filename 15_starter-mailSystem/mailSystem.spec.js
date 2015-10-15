@@ -9,15 +9,17 @@ var smtpTransport = require('./smtpTransport');
 
 describe('mailSystem', function() {
 
+	var sandbox = sinon.sandbox.create();
 	var model, from;
+	
 	beforeEach(function() {
 		model = {name: 'Peter'};
 		from = 'wouterstinckens@gmail.com';
-	})
+	});
 
     it('mail is sent', function() {
     	
-    	var stub = sinon.stub(smtpTransport, 'send');
+    	var stub = sandbox.stub(smtpTransport, 'send');
 
     	var to = 'info@euricom.com';
     	mailSystem.init(from);
@@ -35,6 +37,10 @@ describe('mailSystem', function() {
     	expect(function() {
     		mailSystem.sendWelcomeMail(null, 'open position', model)
     	}).to.throw(Error);
+    });
+
+    afterEach(function() {
+    	sandbox.restore();
     });
 });
 
