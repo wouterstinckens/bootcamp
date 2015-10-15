@@ -1,0 +1,23 @@
+{
+  "name": "specs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "spec.js",
+  "dependencies": {
+    "q": "^1.4.1",
+    "string-template": "^0.2.1",
+    "underscore": "^1.8.3",
+    "underscore.string": "^3.2.2"
+  },
+  "devDependencies": {
+    "chai": "^3.3.0",
+    "chai-as-promised": "^5.1.0",
+    "sinon": "^1.17.1",
+    "sinon-chai": "^2.8.0"
+  },
+  "scripts": {
+    "test": "mocha -R spec **/*.spec.js -w"
+  },
+  "author": "",
+  "license": "ISC"
+}
