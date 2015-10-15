@@ -25,15 +25,15 @@ mailSystem.sendWelcomeMail = function(to, subject, model) {
     smtpTransport.send(mail);
 }
 
-// mailSystem.transferEuriMails = function(backend) {
-//     // get mail from db
-//     var mails = repository.getMails();
+mailSystem.transferEuriMails = function(backend) {
+    // get mail from db
+    var mails = repository.getMails();
 
-//     // get filtered mails
-//     var filteredMails = _.filter(mails, function(mail) {
-//         return (s.include(mail.to, 'euri.com'));
-//     });
+    // get filtered mails
+    var filteredMails = _.filter(mails, function(mail) {
+        return (s.include(mail.to, 'euri.com'));
+    });
 
-//     // transfer to backend
-//     backend.transfer(filteredMails);
-// }
+    // transfer to backend
+    backend.transfer(filteredMails);
+}

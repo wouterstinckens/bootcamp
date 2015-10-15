@@ -1,10 +1,10 @@
 var mailSystem = require('./mailSystem');
 
-// var backend = {
-//     transfer:  function(mails) {
-//         console.log('>>>>>> Transfer emails to backend:', mails);
-//     }
-// }
+var backend = {
+    transfer:  function(mails) {
+        console.log('>>>>>> Transfer emails to backend:', mails);
+    }
+}
 
 mailSystem.init('info@euri.com'); // from address 
 mailSystem.sendWelcomeMail('peter.cosemans@gmail.com', // to address
@@ -13,4 +13,4 @@ mailSystem.sendWelcomeMail('peter.cosemans@gmail.com', // to address
 
 
 
-// mailSystem.transferEuriMails(backend);
+mailSystem.transferEuriMails(backend);

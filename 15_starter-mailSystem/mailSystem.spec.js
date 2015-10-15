@@ -4,7 +4,7 @@ chai.use(require('sinon-chai'));
 var expect = chai.expect;
 var mailSystem = require('./mailSystem');
 var smtpTransport = require('./smtpTransport');
-
+var repository = require('./repository');
 
 
 describe('mailSystem', function() {
@@ -38,6 +38,21 @@ describe('mailSystem', function() {
     		mailSystem.sendWelcomeMail(null, 'open position', model)
     	}).to.throw(Error);
     });
+
+    it('euri mails are transferred to backend', function(done) {
+        var repoResult = [{ id: 123, to: 'peter.cosemans@gmail.com', body: 'aaaa...'},
+            { id: 123, to: 'wim.vanhoye@euri.com', body: 'bbb...'}];
+        var repoStub = sandbox.stub(repository, 'getMails').returns(repoResult);
+
+        var mockedBackend = {
+            transfer: function(mails) {
+                expect(mails).to.deep.equal([repoResult[1]]);
+                done();
+            }
+        };
+
+        mailSystem.transferEuriMails(mockedBackend);
+    }); 
 
     afterEach(function() {
     	sandbox.restore();
