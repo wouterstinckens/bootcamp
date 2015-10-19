@@ -1,5 +1,5 @@
 var inspector = require('schema-inspector');
-var HttpError = require('../HttpError');
+var HttpError = require('../httpError');
 var _ = require('underscore');
 
 module.exports = function validate(schema, custom) {

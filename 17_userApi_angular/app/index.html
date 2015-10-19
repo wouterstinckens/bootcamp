@@ -16,7 +16,8 @@
 
 <h3>Users</h3>
 
-<div infinite-scroll="addMoreItems()">
+filter: <input type="text" ng-model="filterValue">
+<div infinite-scroll="addMoreItems()" infinite-scroll-disabled=false>
 <table class="table table-striped">
   <thead><tr>
   	<th />
@@ -27,7 +28,7 @@
 	<th ng-class="orderStyles['zip']" ng-click="sortList('zip')">Zip</th>
   </tr></thead>
   <tbody>
-  <tr ng-repeat="user in users | orderBy:orderColumn">
+  <tr ng-repeat="user in users | orderBy:orderColumn | filter:filterValue">
     <td>
       	<button class="btn" ng-click="deleteUser(user)">
       		<span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Delete

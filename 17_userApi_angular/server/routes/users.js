@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var validator = require('../middleware/requestValidator');
-var userController = require('../controllers/usercontroller');
+var userController = require('../controllers/userController');
 
 // var UserModel = require('../models/user');
 // var userMapper = require('../mappers/userMapper');

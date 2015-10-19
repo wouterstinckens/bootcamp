@@ -6,6 +6,7 @@ module.exports = {
         var deferred = Q.defer();
         var pageSize = pageSize || 100;
         var page = page || 0;
+console.log('pageSize: ' + pageSize + ' page: ' + page);
         UserModel.find(query)
             .limit(pageSize)
             .skip(pageSize * page)

@@ -4,7 +4,7 @@ var User = require('../models/user');
 module.exports = {
     fillDb: function fillDb(){
         var data = [];
-        for(var i = 0; i < 1000; i++){
+        for(var i = 0; i < 46; i++){
             data.push({
                 firstName: faker.name.firstName(),
                 lastName: faker.name.lastName(),

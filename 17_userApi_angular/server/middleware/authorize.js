@@ -1,4 +1,4 @@
-var HttpError = require('../HttpError');
+var HttpError = require('../httpError');
 
 module.exports = function authorization(password) {
     return function authorization(req, res, next) {

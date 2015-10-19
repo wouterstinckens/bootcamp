@@ -8,13 +8,17 @@
 	function MyController($scope, myService) {
 		var page = 0;
 		var pagesize = 20;
-		
+
+		$scope.eof = false;
 		$scope.users = [];
-		addCustomers();
+		// addCustomers();
 
 		function addCustomers() {
 			myService.getCustomers(page, pagesize)
 				.then(function(response) {
+					if (response.data.length == 0) {
+						return $scope.eof = true;
+					} 
 					$scope.users = $scope.users.concat(response.data);
 					page++;
 				})
