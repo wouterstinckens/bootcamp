@@ -6,18 +6,30 @@
 		.controller('MyController', MyController);
 
 	function MyController($scope, myService) {
-		myService.getCustomers()
-			.then(function(response) {
-				$scope.users = response.data;
-			})
-			.catch(function(err) {
-				$scope.error(err);
-			});
+		var page = 0;
+		var pagesize = 20;
+		
+		$scope.users = [];
+		addCustomers();
+
+		function addCustomers() {
+			myService.getCustomers(page, pagesize)
+				.then(function(response) {
+					$scope.users = $scope.users.concat(response.data);
+					page++;
+				})
+				.catch(function(err) {
+					$scope.error = err;
+				});
+			}
 
 		$scope.sortList = function(column) {
+			$scope.orderStyles = [];
 			if ($scope.orderColumn === column) {
+				$scope.orderStyles[column] = 'glyphicon glyphicon-triangle-top'
 				return $scope.orderColumn = '-' + column;
-			}
+			} 
+			$scope.orderStyles[column] = 'glyphicon glyphicon-triangle-bottom'
 			return $scope.orderColumn = column;
 		};
 
@@ -29,8 +41,12 @@
 					});
 				})
 				.catch(function(err) {
-					$scope.error(err);	
+					$scope.error = err;	
 				});
+		}
+
+		$scope.addMoreItems = function() {
+			addCustomers();
 		}
 	};
 })();

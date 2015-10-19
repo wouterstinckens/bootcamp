@@ -6,10 +6,14 @@
 		.factory('myService', myService);
 
 	function myService($http) {
-		function getCustomers() {
+		function getCustomers(page, pagesize) {
 			return $http({
 				url: 'http://localhost:3000/api/users',
-				method: "GET"
+				method: "GET",
+				params: {
+					page: page,
+					pageSize: pagesize
+				}
 			});
 		}
 

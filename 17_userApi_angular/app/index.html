@@ -1,29 +1,33 @@
 <!DOCTYPE html>
 <html>
-<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
-<script src="bower_components/angular/angular.js"></script>
-<script src="bower_components/jquery/dist/jquery.js"></script>
-<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-<script src="scripts/app.js"></script>
-<script src="scripts/controllers.js"></script>
-<script src="scripts/services.js"></script>
-
+<head>
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="bower_components/jquery/dist/jquery.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+	<script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+	<script src="scripts/app.js"></script>
+	<script src="scripts/controllers.js"></script>
+	<script src="scripts/services.js"></script>
+</head>
 <body ng-app="myApp">
 
 <div class="container" ng-controller="MyController">
 
 <h3>Users</h3>
 
+<div infinite-scroll="addMoreItems()">
 <table class="table table-striped">
   <thead><tr>
   	<th />
-    <th ng-click="sortList('name')">Name</th>
-    <th ng-click="sortList('age')">Age</th>
-    <th ng-click="sortList('address')">Address</th>
-    <th ng-click="sortList('city')">City</th>
-	<th ng-click="sortList('zip')">Zip</th>
+    <th ng-class="orderStyles['name']" ng-click="sortList('name')">Name</th>
+    <th ng-class="orderStyles['age']" ng-click="sortList('age')">Age</th>
+    <th ng-class="orderStyles['address']" ng-click="sortList('address')">Address</th>
+    <th ng-class="orderStyles['city']" ng-click="sortList('city')">City</th>
+	<th ng-class="orderStyles['zip']" ng-click="sortList('zip')">Zip</th>
   </tr></thead>
-  <tbody><tr ng-repeat="user in users | orderBy:orderColumn">
+  <tbody>
+  <tr ng-repeat="user in users | orderBy:orderColumn">
     <td>
       	<button class="btn" ng-click="deleteUser(user)">
       		<span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Delete
@@ -36,6 +40,9 @@
     <td>{{ user.zip }}</td>
   </tr></tbody>
 </table>
+</div>
+
+
 
 {{error}}
 
