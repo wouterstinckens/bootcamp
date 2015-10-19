@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="scripts/app.js"></script>
+<script src="scripts/controllers.js"></script>
+<script src="scripts/services.js"></script>
+
+<body ng-app="myApp">
+
+<div class="container" ng-controller="MyController">
+
+<h3>Users</h3>
+
+<table class="table table-striped">
+  <thead><tr>
+  	<th />
+    <th ng-click="sortList('name')">Name</th>
+    <th ng-click="sortList('age')">Age</th>
+    <th ng-click="sortList('address')">Address</th>
+    <th ng-click="sortList('city')">City</th>
+	<th ng-click="sortList('zip')">Zip</th>
+  </tr></thead>
+  <tbody><tr ng-repeat="user in users | orderBy:orderColumn">
+    <td>
+      	<button class="btn" ng-click="deleteUser(user)">
+      		<span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Delete
+  		</button>
+    </td>
+    <td>{{ user.name }}</td>
+    <td>{{ user.age }}</td>
+    <td>{{ user.address }}</td>
+    <td>{{ user.city }}</td>
+    <td>{{ user.zip }}</td>
+  </tr></tbody>
+</table>
+
+{{error}}
+
+</div>
+
+</body>
+</html>
+
+
