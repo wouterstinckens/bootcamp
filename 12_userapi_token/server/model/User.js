@@ -1,6 +1,6 @@
 var mongoose = require('mongoose-q')(require('mongoose'));
 
-module.exports = mongoose.model('User', {
+module.exports = UserModel = mongoose.model('User', {
 	firstName: String,
 	lastName: String,
 	age: Number,

@@ -39,17 +39,23 @@ describe('mailSystem', function() {
     	}).to.throw(Error);
     });
 
-    it('euri mails are transferred to backend', function(done) {
-        var repoResult = [{ id: 123, to: 'peter.cosemans@gmail.com', body: 'aaaa...'},
-            { id: 123, to: 'wim.vanhoye@euri.com', body: 'bbb...'}];
+    it('euri mails are transferred to backend', function() {
+        var repoResult = [
+            { id: 123, to: 'peter.cosemans@gmail.com', body: 'aaaa...'},
+            { id: 123, to: 'wim.vanhoye@euri.com', body: 'bbb...'}
+        ];
         var repoStub = sandbox.stub(repository, 'getMails').returns(repoResult);
 
+        // var mockedBackend = {
+        //     transfer: function(mails) {
+        //         expect(mails).to.deep.equal([repoResult[1]]);
+        //         done();
+        //     }
+        // };
+
         var mockedBackend = {
-            transfer: function(mails) {
-                expect(mails).to.deep.equal([repoResult[1]]);
-                done();
-            }
-        };
+            transfer: sandbox.stub()
+        }
 
         mailSystem.transferEuriMails(mockedBackend);
     }); 
