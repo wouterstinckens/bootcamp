@@ -5,23 +5,39 @@
 		.module('controllers', [])
 		.controller('UserController', UserController);
 
-	function UserController($scope, userService) {
+	function UserController($scope, $interval, userService) {
 		var vm = this;
 
 		var page = 0;
 		var pagesize = 20;
+		var timer = null;
 
 		vm.eof = false;
 		vm.users = [];
 		vm.alerts = [];
+		vm.counter = 10;
 		vm.sortList = sortList;
+		vm.delay = 1000;
 
 		activate();
 
 		////////////
 
 		function activate() {
-			// do nothing
+			startTimer();
+		}
+
+		function startTimer() {
+			if (timer) {
+				$interval.cancel(timer);
+			}
+			timer = $interval(function() {
+				vm.counter--;
+				if (vm.counter === 0) {
+					vm.addAlert('warning', 'End of time!');
+					vm.counter = 10;
+				}
+          	}, vm.delay);
 		}
 
 		function addCustomers() {
@@ -64,11 +80,8 @@
 			addCustomers();
 		}
 
-		vm.addAlert = function() {
-			vm.alerts.push({
-				type: 'danger',
-				msg: 'alert-danger'
-			});
+		vm.addAlert = function(type, msg) {
+			vm.alerts.push({ type: type, msg: msg });
 		}
 
 		vm.closeAlert = function(alert) {

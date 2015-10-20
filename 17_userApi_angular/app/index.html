@@ -8,9 +8,8 @@
 <div class="container" ng-controller="UserController as vm">
 
  
-<h3>Alerts</h3>
+<h3>Alerts <button type="button" class='btn btn-default' ng-click="vm.addAlert('danger', 'Danger!')">Add Alert ({{vm.counter}})</button></h3>
 <uib-alert ng-repeat="alert in vm.alerts" type="{{alert.type}}" close="vm.closeAlert(alert)">{{alert.msg}}</uib-alert>
-<button type="button" class='btn btn-default' ng-click="vm.addAlert()">Add Alert</button>
 
 
 <h3>Users</h3>
@@ -41,8 +40,6 @@ filter: <input type="text" ng-model="vm.filterValue">
   </tr></tbody>
 </table>
 </div>
-
-
 
 {{vm.error}}
 
