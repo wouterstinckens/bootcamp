@@ -3,7 +3,7 @@
 
 	angular
 		.module('myApp')
-		.factory('userService', userService);
+		.service('userService', userService);
 
 	function userService($http) {
 		function getCustomers(page, pagesize) {
@@ -30,10 +30,8 @@
 			});
 		}
 
-		return {
-			getCustomers: getCustomers,
-			deleteCustomer: deleteCustomer
-		}
+		this.getCustomers = getCustomers;
+		this.deleteCustomer =  deleteCustomer;
 		
 	};
 
