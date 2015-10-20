@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="bower_components/angularjs-toaster/toaster.css">
 </head>
 <body ng-app="myApp">
 
 <div class="container" ng-controller="UserController as vm">
 
+<toaster-container></toaster-container>
  
 <h3>Alerts <button type="button" class='btn btn-default' ng-click="vm.addAlert('danger', 'Danger!')">Add Alert ({{vm.counter}})</button></h3>
 <uib-alert ng-repeat="alert in vm.alerts" type="{{alert.type}}" close="vm.closeAlert(alert)">{{alert.msg}}</uib-alert>
@@ -50,6 +52,10 @@ filter: <input type="text" ng-model="vm.filterValue">
 <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angularjs-toaster/toaster.js"></script>
+
 <script src="scripts/app.js"></script>
 <script src="scripts/controllers.js"></script>
 <script src="scripts/services.js"></script>

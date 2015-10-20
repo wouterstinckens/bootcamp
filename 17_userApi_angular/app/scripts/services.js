@@ -15,29 +15,21 @@
 			pagesize = myPagesize;
 		}
 
-		this.$get = function ($http, config) {
+		this.$get = function (userResource, config) {
+			
+			// var userResource = $resource(baseurl + "/users/:id", {id:'@id'});
+
+
 			function getCustomers(page) {
-				return $http({
-					url: baseurl + '/users',
-					method: "GET",
-					params: {
-						page: page,
-						pageSize: pagesize
-					}
-				})
-				.then(function(response) {
-					return response.data;
-				});
+				return userResource.query().$promise;
+					// params: {
+					// 	page: page,
+					// 	pageSize: pagesize
+					// }
 			}
 
 			function deleteCustomer(user) {
-				return $http({
-					url: baseurl + '/users/' + user.id,
-					method: "DELETE"
-				})
-				.then(function(response) {
-					return response.data;
-				});
+				return userResource.remove(user).$promise;
 			}
 
 			return {
