@@ -9,7 +9,6 @@
 		var vm = this;
 
 		var page = 0;
-		var pagesize = 20;
 		var timer = null;
 
 		vm.eof = false;
@@ -41,7 +40,7 @@
 		}
 
 		function addCustomers() {
-			userService.getCustomers(page, pagesize)
+			userService.getCustomers(page)
 				.then(function(users) {
 					if (users.length == 0) {
 						return vm.eof = true;

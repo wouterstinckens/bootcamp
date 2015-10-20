@@ -3,36 +3,50 @@
 
 	angular
 		.module('myApp')
-		.service('userService', userService);
+		.provider('userService', userService);
 
-	function userService($http) {
-		function getCustomers(page, pagesize) {
-			return $http({
-				url: 'api/users',
-				method: "GET",
-				params: {
-					page: page,
-					pageSize: pagesize
-				}
-			})
-			.then(function(response) {
-				return response.data;
-			});
-		}
+	function userService() {
 
-		function deleteCustomer(user) {
-			return $http({
-				url: 'api/users/' + user.id,
-				method: "DELETE"
-			})
-			.then(function(response) {
-				return response.data;
-			});
-		}
-
-		this.getCustomers = getCustomers;
-		this.deleteCustomer =  deleteCustomer;
+		var baseUrl = null;
+		var pagesize = null;
 		
-	};
+		this.setConfig = function(myBaseurl, myPagesize) {
+			baseurl = myBaseurl;
+			pagesize = myPagesize;
+		}
+
+		this.$get = function ($http, config) {
+			function getCustomers(page) {
+				return $http({
+					url: baseurl + '/users',
+					method: "GET",
+					params: {
+						page: page,
+						pageSize: pagesize
+					}
+				})
+				.then(function(response) {
+					return response.data;
+				});
+			}
+
+			function deleteCustomer(user) {
+				return $http({
+					url: baseurl + '/users/' + user.id,
+					method: "DELETE"
+				})
+				.then(function(response) {
+					return response.data;
+				});
+			}
+
+			return {
+				getCustomers : getCustomers,
+				deleteCustomer : deleteCustomer
+			}
+			
+		};
+
+	}
 
 })();
