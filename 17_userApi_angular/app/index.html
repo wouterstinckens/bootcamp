@@ -9,7 +9,8 @@
 <div class="container" ng-controller="UserController as vm">
 
 <toaster-container></toaster-container>
- 
+<button type="button" class='btn btn-default' ng-click="vm.messWithUrl()">Mess with URL</button>
+
 <h3>Alerts <button type="button" class='btn btn-default' ng-click="vm.addAlert('danger', 'Danger!')">Add Alert ({{vm.counter}})</button></h3>
 <uib-alert ng-repeat="alert in vm.alerts" type="{{alert.type}}" close="vm.closeAlert(alert)">{{alert.msg}}</uib-alert>
 

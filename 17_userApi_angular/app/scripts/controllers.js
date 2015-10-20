@@ -5,7 +5,7 @@
 		.module('controllers', [])
 		.controller('UserController', UserController);
 
-	function UserController($scope, $interval, userService) {
+	function UserController($scope, $interval, userService, messUpNetwork) {
 		var vm = this;
 
 		var page = 0;
@@ -15,12 +15,19 @@
 		vm.users = [];
 		vm.alerts = [];
 		vm.counter = 10;
-		vm.sortList = sortList;
 		vm.delay = 1000;
+		
+		// public functions
+		vm.sortList = sortList;
+		vm.messWithUrl = messWithUrl;
 
 		activate();
 
 		////////////
+
+		function messWithUrl() {
+			messUpNetwork.messedUp = !messUpNetwork.messedUp;
+		}
 
 		function activate() {
 			startTimer();

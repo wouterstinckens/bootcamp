@@ -13,6 +13,11 @@
 		.constant('config', {
 			pagesize: 20
 		})
+		.value('messUpNetwork', function() {
+			return {
+				messedUp: false
+			}
+		})
 		.factory('userResource', function($resource) {
 			return $resource("/api/users/:id", {id:'@id'});
 		})
@@ -23,9 +28,20 @@
 			userServiceProvider.setConfig('/api', config.pagesize);
 		})
 		.config(function($httpProvider) {
+			$httpProvider.interceptors.push('httpMesserInterceptor');
 			$httpProvider.interceptors.push('httpLogInterceptor');
 			$httpProvider.interceptors.push('httpHeaderInterceptor');
 			$httpProvider.interceptors.push('httpErrorInterceptor');
+		})
+		.factory('httpMesserInterceptor', function($q, messUpNetwork) {
+			return {
+				request: function(request) {
+					if (messUpNetwork.messedUp) {
+						request.url = request.url.split("").reverse().join("");;
+					}
+					return $q.when(request);
+				}
+			};
 		})
 		.factory('httpLogInterceptor', function($q) {
 			return {
@@ -46,7 +62,6 @@
 		.factory('httpErrorInterceptor', function($q, toaster) {
 			return {
 				responseError: function(request) {
-console.log(request);
 					toaster.pop('error', "HTTP response", "Something went wrong!");
 					return $q.reject(request);
 				}
