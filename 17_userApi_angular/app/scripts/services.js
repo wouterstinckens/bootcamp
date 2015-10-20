@@ -3,24 +3,30 @@
 
 	angular
 		.module('myApp')
-		.factory('myService', myService);
+		.factory('userService', userService);
 
-	function myService($http) {
+	function userService($http) {
 		function getCustomers(page, pagesize) {
 			return $http({
-				url: 'http://localhost:3000/api/users',
+				url: 'api/users',
 				method: "GET",
 				params: {
 					page: page,
 					pageSize: pagesize
 				}
+			})
+			.then(function(response) {
+				return response.data;
 			});
 		}
 
-		function deleteCustomer(id) {
+		function deleteCustomer(user) {
 			return $http({
-				url: 'http://localhost:3000/api/users/' + id,
+				url: 'api/users/' + user.id,
 				method: "DELETE"
+			})
+			.then(function(response) {
+				return response.data;
 			});
 		}
 

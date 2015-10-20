@@ -2,55 +2,81 @@
 	'use strict'
 
 	angular
-		.module('myApp')
-		.controller('MyController', MyController);
+		.module('controllers', [])
+		.controller('UserController', UserController);
 
-	function MyController($scope, myService) {
+	function UserController($scope, userService) {
+		var vm = this;
+
 		var page = 0;
 		var pagesize = 20;
 
-		$scope.eof = false;
-		$scope.users = [];
-		// addCustomers();
+		vm.eof = false;
+		vm.users = [];
+		vm.alerts = [];
+		vm.sortList = sortList;
+
+		activate();
+
+		////////////
+
+		function activate() {
+			// do nothing
+		}
 
 		function addCustomers() {
-			myService.getCustomers(page, pagesize)
-				.then(function(response) {
-					if (response.data.length == 0) {
-						return $scope.eof = true;
+			userService.getCustomers(page, pagesize)
+				.then(function(users) {
+					if (users.length == 0) {
+						return vm.eof = true;
 					} 
-					$scope.users = $scope.users.concat(response.data);
+					vm.users = vm.users.concat(users);
 					page++;
 				})
 				.catch(function(err) {
-					$scope.error = err;
+					vm.error = err;
 				});
-			}
+		}
 
-		$scope.sortList = function(column) {
-			$scope.orderStyles = [];
-			if ($scope.orderColumn === column) {
-				$scope.orderStyles[column] = 'glyphicon glyphicon-triangle-top'
-				return $scope.orderColumn = '-' + column;
+		function sortList(column) {
+			vm.orderStyles = [];
+			if (vm.orderColumn === column) {
+				vm.orderStyles[column] = 'glyphicon glyphicon-triangle-top'
+				return vm.orderColumn = '-' + column;
 			} 
-			$scope.orderStyles[column] = 'glyphicon glyphicon-triangle-bottom'
-			return $scope.orderColumn = column;
+			vm.orderStyles[column] = 'glyphicon glyphicon-triangle-bottom'
+			return vm.orderColumn = column;
 		};
 
-		$scope.deleteUser = function(user) {
-			myService.deleteCustomer(user.id)
-				.then(function() {
-					$scope.users = $scope.users.filter(function(userInArr) {
+		vm.deleteUser = function(user) {
+			userService.deleteCustomer(user)
+				.then(function(deletedUser) {
+					vm.users = vm.users.filter(function(userInArr) {
 						return userInArr != user;
 					});
 				})
 				.catch(function(err) {
-					$scope.error = err;	
+					vm.error = err;	
 				});
 		}
 
-		$scope.addMoreItems = function() {
+		vm.addMoreItems = function() {
 			addCustomers();
 		}
+
+		vm.addAlert = function() {
+			vm.alerts.push({
+				type: 'danger',
+				msg: 'alert-danger'
+			});
+		}
+
+		vm.closeAlert = function(alert) {
+			vm.alerts = vm.alerts.filter(function(alertInArr) {
+				return alertInArr != alert;
+			});
+		}
+
+
 	};
 })();
