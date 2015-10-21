@@ -3,9 +3,11 @@
 
 	angular
 		.module('controllers', [])
-		.controller('UserController', UserController);
+		.controller('UserController', UserController)
+		.controller('UserEditController', UserEditController)
+		.controller('AlertController', AlertController);
 
-	function UserController($scope, $interval, userService, messUpNetwork, $filter) {
+	function UserController($scope, $interval, userService, messUpNetwork, $filter, users ) {
 		var vm = this;
 
 		var page = 0;
@@ -55,7 +57,7 @@
 					if (users.length == 0) {
 						return vm.eof = true;
 					} 
-					vm.users = vm.users.concat(gmailFilter(users));
+					vm.users = vm.users.concat(users);
 					page++;
 				})
 				.catch(function(err) {
@@ -71,7 +73,7 @@
 			} 
 			vm.orderStyles[column] = 'glyphicon glyphicon-triangle-bottom'
 			return vm.orderColumn = column;
-		};
+		}
 
 		vm.deleteUser = function(user) {
 			userService.deleteCustomer(user)
@@ -98,7 +100,50 @@
 				return alertInArr != alert;
 			});
 		}
+	};
 
+	function UserEditController($stateParams, $log, $scope, userService) {
+		var vm = this;
+		vm.userId = $stateParams.userId;
+		vm.action = vm.userId ? 'Edit' : 'Add';
+		vm.submit = submit;
+		vm.user = null;
+
+		activate();
+
+		/////////
+
+		function activate() {
+			if (vm.userId) {
+				userService.getCustomer(vm.userId)
+					.then(function(user) {
+						vm.user = user;
+					})
+					.catch(function(err) {
+						vm.error = err;
+					});
+			}
+		}
+
+		function submit(valid) {
+			if (!valid) {
+				return ;
+			}
+
+			$scope.submitting = true;
+
+			userService.saveCustomer(vm.user)
+				.then(function(user) {
+					vm.user = user;
+				})
+				.catch(function(err) {
+					vm.error = err;
+				});
+		}
+	};
+
+	function AlertController() {
 
 	};
+
 })();

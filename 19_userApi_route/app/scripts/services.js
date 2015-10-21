@@ -24,12 +24,25 @@
 				return userResource.query({page: page}).$promise;
 			}
 
+			function getCustomer(userId) {
+				return userResource.get({id: userId}).$promise;
+			}
+
+			function saveCustomer(user) {
+				if (user.id) {
+					return userResource.update(user).$promise;
+				}
+				return userResource.save(user).$promise;
+			}
+
 			function deleteCustomer(user) {
 				return userResource.remove(user).$promise;
 			}
 
 			return {
 				getCustomers : getCustomers,
+				getCustomer : getCustomer,
+				saveCustomer : saveCustomer,
 				deleteCustomer : deleteCustomer
 			}
 			

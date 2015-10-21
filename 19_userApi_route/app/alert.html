@@ -1,0 +1,6 @@
+<div>
+
+<h3>Alerts <button type="button" class='btn btn-default' ng-click="vm.addAlert('danger', 'Danger!')">Add Alert ({{vm.counter}})</button></h3>
+<uib-alert ng-repeat="alert in vm.alerts" type="{{alert.type}}" close="vm.closeAlert(alert)">{{alert.msg}}</uib-alert>
+
+</div>

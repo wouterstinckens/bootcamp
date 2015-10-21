@@ -20,6 +20,9 @@
     "angular-bootstrap": "~0.14.2",
     "angular-resource": "~1.4.7",
     "angularjs-toaster": "~0.4.15",
-    "angular-sanitize": "~1.4.7"
+    "angular-sanitize": "~1.4.7",
+    "angular-route": "~1.4.7",
+    "angular-ui-router": "~0.2.15",
+    "angular-messages": "~1.4.7"
   }
 }

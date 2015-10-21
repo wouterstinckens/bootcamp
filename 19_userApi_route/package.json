@@ -1,0 +1,31 @@
+{
+  "name": "userapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/server.js",
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "boom": "^2.9.0",
+    "cors": "^2.7.1",
+    "express": "^4.13.3",
+    "faker": "^3.0.1",
+    "finalhandler": "^0.4.0",
+    "http": "0.0.0",
+    "http-status": "^0.2.0",
+    "mongoose": "^4.1.10",
+    "morgan": "^1.6.1",
+    "q": "^1.4.1",
+    "schema-inspector": "^1.5.5",
+    "serve-static": "^1.10.0",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "start": "nodemon server/server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,64 @@
+
+<h1>{{vm.action}} User</h1>
+
+<form name="myForm" novalidate ng-submit="vm.submit(myForm.$valid)"> 
+	
+	<!-- Name -->
+	<input type="text" name="name" ng-model="vm.user.name" placeholder="Name" ng-minLength="5" ng-maxLength="20" required />
+	<div ng-messages="myForm.name.$error" style="color:red"
+		 ng-if="myForm.name.$dirty || myForm.$submitted">
+		 <div ng-messages-include="error-messages.html"></div>
+	</div>
+	
+	<br>
+	
+	<!-- Age -->
+	<input type="number" name="age" ng-model="vm.user.age" placeholder="Age" required />
+	<div ng-messages="myForm.age.$error" style="color:red" 
+		 ng-if="myForm.age.$touch || myForm.$submitted">
+		 <div ng-messages-include="error-messages.html"></div>
+	</div>
+
+	<br>
+
+	<!-- Email -->
+	<input type="email" name="email" ng-model="vm.user.email" placeholder="Email" required />
+	<div ng-messages="myForm.email.$error" style="color:red" 
+		 ng-if="myForm.email.$touch || myForm.$submitted">
+		 <div ng-messages-include="error-messages.html"></div>
+	</div>
+
+	<br>
+	
+	<!-- Address -->
+	<input type="text" name="address" ng-model="vm.user.address" placeholder="Address" required />
+	<div ng-messages="myForm.address.$error" style="color:red" 
+		 ng-if="myForm.address.$touch || myForm.$submitted">
+		 <div ng-messages-include="error-messages.html"></div>
+	</div>
+
+	<br>
+
+	<!-- Zip -->
+	<input type="text" name="zip" ng-model="vm.user.zip" placeholder="Zip" required />
+	<div ng-messages="myForm.zip.$error" style="color:red" 
+		 ng-if="myForm.zip.$touch || myForm.$submitted">
+		 <div ng-messages-include="error-messages.html"></div>
+	</div>
+
+	<br>
+
+	<!-- City -->
+	<input type="text" name="city" ng-model="vm.user.city" placeholder="City" required />
+	<div ng-messages="myForm.city.$error" style="color:red" 
+		 ng-if="myForm.city.$touch || myForm.$submitted">
+		 <div ng-messages-include="error-messages.html"></div>
+	</div>
+
+	<br>
+
+	<button type="submit">Submit</button>
+
+	<br>
+
+</form>

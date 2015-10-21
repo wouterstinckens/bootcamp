@@ -8,7 +8,8 @@
 			'controllers',
 			'ui.bootstrap',
 			'toaster',
-			'ngAnimate'
+			'ngAnimate',
+			'ngSanitize'
 		])
 		.constant('config', {
 			pagesize: 20
@@ -37,7 +38,7 @@
 			return {
 				request: function(request) {
 					if (messUpNetwork.messedUp) {
-						request.url = request.url.split("").reverse().join("");;
+						request.url = request.url.split("").reverse().join("");
 					}
 					return $q.when(request);
 				}

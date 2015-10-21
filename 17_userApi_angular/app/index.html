@@ -15,9 +15,11 @@
 <uib-alert ng-repeat="alert in vm.alerts" type="{{alert.type}}" close="vm.closeAlert(alert)">{{alert.msg}}</uib-alert>
 
 
+<h1 ng-bind-html="vm.text"></h1>
+
 <h3>Users</h3>
 
-filter: <input type="text" ng-model="vm.filterValue">
+filter: <input type="text" ng-model="vm.filterValue"> upper: <input type="checkbox" ng-model="vm.upper"> messy: <input type="checkbox" ng-model="vm.messy"> gmail: <input type="checkbox" ng-model="vm.gmail">
 <div infinite-scroll="vm.addMoreItems()" infinite-scroll-disabled="vm.eof">
 <table class="table table-striped">
   <thead><tr>
@@ -29,15 +31,16 @@ filter: <input type="text" ng-model="vm.filterValue">
 	  <th ng-class="vm.orderStyles['zip']" ng-click="sortList('zip')">Zip</th>
   </tr></thead>
   <tbody>
-  <tr ng-repeat="user in vm.users | orderBy:vm.orderColumn | filter:vm.filterValue">
+  <tr ng-repeat="user in vm.users | orderBy:vm.orderColumn | filter:vm.filterValue ">
     <td>
       	<button class="btn" ng-click="vm.deleteUser(user)">
       		<span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Delete
   		</button>
     </td>
-    <td>{{ user.name }}</td>
+    <td>{{ user.name | uppercase:vm.upper | charbreaker }}</td>
     <td>{{ user.age }}</td>
     <td>{{ user.address }}</td>
+    <td>{{ user.email }}</td>
     <td>{{ user.city }}</td>
     <td>{{ user.zip }}</td>
   </tr></tbody>
@@ -56,10 +59,11 @@ filter: <input type="text" ng-model="vm.filterValue">
 <script src="bower_components/angular-resource/angular-resource.js"></script>
 <script src="bower_components/angular-animate/angular-animate.js"></script>
 <script src="bower_components/angularjs-toaster/toaster.js"></script>
-
+<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
 <script src="scripts/app.js"></script>
 <script src="scripts/controllers.js"></script>
 <script src="scripts/services.js"></script>
+<script src="scripts/filters.js"></script>
 
 </body>
 
