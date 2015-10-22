@@ -15,7 +15,7 @@
 			pagesize = myPagesize;
 		}
 
-		this.$get = function (userResource, config) {
+		this.$get = ['userResource', 'config', function (userResource, config) {
 			
 			// var userResource = $resource(baseurl + "/users/:id", {id:'@id'});
 
@@ -46,7 +46,7 @@
 				deleteCustomer : deleteCustomer
 			}
 			
-		};
+		}];
 
 	}
 

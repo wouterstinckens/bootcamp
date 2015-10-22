@@ -3,21 +3,17 @@
 
 	angular
 		.module('controllers', [])
-		.controller('UserController', UserController)
-		.controller('UserEditController', UserEditController)
-		.controller('AlertController', AlertController);
+		.controller('UserController', ['$scope', '$interval', 'userService', 'messUpNetwork', '$filter', 'users', '$log', UserController])
+		.controller('UserEditController', ['$stateParams', '$log', '$scope', 'userService', UserEditController])
+		.controller('AlertController_', ['$interval', '$scope', '$log', AlertController]);
 
-	function UserController($scope, $interval, userService, messUpNetwork, $filter, users ) {
+	function UserController($scope, $interval, userService, messUpNetwork, $filter, users, $log ) {
 		var vm = this;
 
 		var page = 0;
-		var timer = null;
 
 		vm.eof = false;
 		vm.users = [];
-		vm.alerts = [];
-		vm.counter = 10;
-		vm.delay = 1000;
 		
 		// public functions
 		vm.sortList = sortList;
@@ -35,19 +31,10 @@
 
 		function activate() {
 			// startTimer();
-		}
 
-		function startTimer() {
-			if (timer) {
-				$interval.cancel(timer);
-			}
-			timer = $interval(function() {
-				vm.counter--;
-				if (vm.counter === 0) {
-					vm.addAlert('warning', 'End of time!');
-					vm.counter = 10;
-				}
-          	}, vm.delay);
+			$scope.$watch('vm.testName', function(newValue) {
+				$log.info(newValue);
+			});
 		}
 
 		function addCustomers() {
@@ -89,16 +76,6 @@
 
 		vm.addMoreItems = function() {
 			addCustomers();
-		}
-
-		vm.addAlert = function(type, msg) {
-			vm.alerts.push({ type: type, msg: msg });
-		}
-
-		vm.closeAlert = function(alert) {
-			vm.alerts = vm.alerts.filter(function(alertInArr) {
-				return alertInArr != alert;
-			});
 		}
 	};
 
@@ -142,7 +119,48 @@
 		}
 	};
 
-	function AlertController() {
+	function AlertController($interval, $scope, $log) {
+		var vm = this;
+		var timer = null;
+		
+		vm.alerts = [];
+		vm.counter = 10;
+		vm.delay = 1000;
+
+		activate();
+
+		////////
+
+		function activate() {
+			startTimer();
+
+			$scope.$destroy(function() {
+				timer.cancel();
+			})
+		}
+		
+		function startTimer() {
+			timer = window.setTimeout(function() {
+				vm.counter--;
+				if (vm.counter === 0) {
+					vm.addAlert('warning', 'End of time!');
+					vm.counter = 10;
+				}
+				$scope.$digest();
+$log.info(vm.counter);
+				startTimer();
+          	}, vm.delay);
+		}
+
+		vm.addAlert = function(type, msg) {
+			vm.alerts.push({ type: type, msg: msg });
+		}
+
+		vm.closeAlert = function(alert) {
+			vm.alerts = vm.alerts.filter(function(alertInArr) {
+				return alertInArr != alert;
+			});
+		}
 
 	};
 

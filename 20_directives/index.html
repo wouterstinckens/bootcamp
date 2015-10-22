@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body ng-app='myApp'>
+
+<div ng-controller='MyController as vm'>
+
+{{vm.message}}
+
+	Button:
+	<my-button change-that='vm.doThat()'>My button</my-button>
+
+</div>
+
+<script src="bower_components/angular/angular.js"></script>
+<script src="scripts/app.js"></script>
+<script src="scripts/controller.js"></script>
+<script src="scripts/directive.js"></script>
+</body>
+</html>

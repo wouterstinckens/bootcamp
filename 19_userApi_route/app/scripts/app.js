@@ -22,25 +22,25 @@
 		.value('routeHistory', {
 			urls: [] 
 		})
-		.factory('userResource', function($resource) {
+		.factory('userResource', ['$resource', function($resource) {
 			var resource = $resource("/api/users/:id", {id:'@id'}, {
 				update: {method: 'PUT'}
 			});
 			return resource;
-		})
-		.factory('_', function($window) {
+		}])
+		.factory('_', ['$window', function($window) {
 			return $window._;
-		})
-		.config(function(userServiceProvider, config) {
+		}])
+		.config(['userServiceProvider', 'config', function(userServiceProvider, config) {
 			userServiceProvider.setConfig('/api', config.pagesize);
-		})
-		.config(function($httpProvider) {
+		}])
+		.config(['$httpProvider', function($httpProvider) {
 			$httpProvider.interceptors.push('httpMesserInterceptor');
 			$httpProvider.interceptors.push('httpLogInterceptor');
 			$httpProvider.interceptors.push('httpHeaderInterceptor');
 			$httpProvider.interceptors.push('httpErrorInterceptor');
-		})
-		.factory('httpMesserInterceptor', function($q, messUpNetwork) {
+		}])
+		.factory('httpMesserInterceptor', ['$q', 'messUpNetwork', function($q, messUpNetwork) {
 			return {
 				request: function(request) {
 					if (messUpNetwork.messedUp) {
@@ -49,32 +49,32 @@
 					return $q.when(request);
 				}
 			};
-		})
-		.factory('httpLogInterceptor', function($q) {
+		}])
+		.factory('httpLogInterceptor', ['$q', function($q) {
 			return {
 				request: function(request) {
 					console.log(request.method + ' ' + request.url);
 					return $q.when(request);
 				} 
 			};
-		})
-		.factory('httpHeaderInterceptor', function($q) {
+		}])
+		.factory('httpHeaderInterceptor', ['$q', function($q) {
 			return {
 				request: function(request) {
 					request.headers.Authorization = 'wouter';
 					return $q.when(request);
 				}
 			};
-		})
-		.factory('httpErrorInterceptor', function($q, toaster) {
+		}])
+		.factory('httpErrorInterceptor', ['$q', 'toaster', function($q, toaster) {
 			return {
 				responseError: function(request) {
 					toaster.pop('error', "HTTP response", "Something went wrong!");
 					return $q.reject(request);
 				}
 			};
-		})
-		.config(function($stateProvider, $urlRouterProvider) {
+		}])
+		.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 			$stateProvider
 				.state('userlist', {
 					url: '/userlist',
@@ -82,9 +82,9 @@
 					controller: 'UserController',
 					controllerAs: 'vm',
 					resolve: {
-						users: function(userService, config) {
+						users: ['userService', 'config', function(userService, config) {
 							return userService.getCustomers(config.pagesize);
-						}
+						}]
 					}
 				})
 				.state('useredit', {
@@ -102,12 +102,12 @@
 				.state('alert', {
 					url: '/alert',
 					templateUrl: './alert.html',
-					controller: 'AlertController',
+					controller: 'AlertController_',
 					controllerAs: 'vm'
 				});
 
             $urlRouterProvider.otherwise('userlist');
-		})
+		}])
 		// .run(function($rootScope, $log, routeHistory) {
   //           $rootScope.$on('$routeChangeStart', function(angularEvent, next, current) {
 	 //            if (next.$$route.originalPath == '/back') {

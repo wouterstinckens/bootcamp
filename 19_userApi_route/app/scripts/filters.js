@@ -12,7 +12,7 @@
 				return input.split("").reverse().join("");
 			}
 		})
-		.filter('gmail', function($log) {
+		.filter('gmail', ['$log', function($log) {
 			return function(users) {
     			var filtered = [];
     			angular.forEach(users, function(user) {
@@ -22,6 +22,6 @@
       			});
       			return filtered;
     		};
-		});
+		}]);
 
 })();
